@@ -6,8 +6,8 @@ import java.util.prefs.Preferences
 
 class MainService {
     var counter by mutableStateOf(0)
-    private val pref: Preferences = Preferences.userNodeForPackage(MainService::class.java)
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val pref: Preferences = Preferences.userNodeForPackage(MainService::class.java)
 
     init {
         coroutineScope.launch {
@@ -18,8 +18,13 @@ class MainService {
         }
     }
 
+    fun deletePreferences() {
+        pref.removeNode()
+        counter = 0
+    }
+
     fun increaseCounter() {
-        counter++;
+        counter++
 
         coroutineScope.launch {
             pref.putInt("clickTimes", counter)
